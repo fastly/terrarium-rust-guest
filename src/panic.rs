@@ -6,7 +6,7 @@
 
 use std::panic;
 
-use hostcalls::panic_hook;
+use crate::hostcalls::panic_hook;
 
 /// A panic hook for use with the demo hostcall interface.
 pub fn hook(info: &panic::PanicInfo) {
