@@ -1,8 +1,8 @@
 use failure::Fail;
 use http::{self, Request, Response};
 
-use hostcalls;
-use hostcalls::types::{
+use crate::hostcalls;
+use crate::hostcalls::types::{
     self as hostcall_types, HostcallStatus, PendingRequestHandle, RequestHandle, ResponseHandle,
 };
 

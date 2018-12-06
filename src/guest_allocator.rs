@@ -1,4 +1,4 @@
-use hostcalls::raw;
+use crate::hostcalls::raw;
 use std::os::raw::c_void;
 
 extern "C" fn default_malloc_impl(size: usize) -> *mut c_void {

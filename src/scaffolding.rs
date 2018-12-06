@@ -2,8 +2,8 @@
 
 use http::{Request, Response};
 
-pub use hostcalls::types::{RequestHandle, ResponseHandle};
-use kvstore::KVStore;
+pub use crate::hostcalls::types::{RequestHandle, ResponseHandle};
+use crate::kvstore::KVStore;
 
 /// Macro to set up the scaffolding
 ///

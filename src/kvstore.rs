@@ -1,4 +1,4 @@
-use hostcalls;
+use crate::hostcalls;
 
 /// A key-value store that persists between requests.
 pub struct KVStore {

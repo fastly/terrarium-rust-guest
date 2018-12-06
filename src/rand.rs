@@ -1,6 +1,6 @@
 use rand_core::{impls, Error, RngCore};
 
-use hostcalls::raw::hostcall_rng_next_u64;
+use crate::hostcalls::raw::hostcall_rng_next_u64;
 
 /// Random number source for guest programs.
 ///

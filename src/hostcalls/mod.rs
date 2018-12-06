@@ -12,12 +12,12 @@
 pub mod raw;
 pub mod types;
 
-use std::{ptr, slice};
-
-use guest_allocator::free;
-pub use hostcalls::types::{
+pub use crate::hostcalls::types::{
     GuestSlice, HostcallStatus, PendingRequestHandle, PollResult, RequestHandle, ResponseHandle,
 };
+
+use crate::guest_allocator::free;
+use std::{ptr, slice};
 
 impl RequestHandle {
     /// Create a new request.
@@ -184,7 +184,8 @@ impl RequestHandle {
             .map(|v| {
                 let v_bytes = v.as_bytes();
                 GuestSlice::new(v_bytes.as_ptr(), v_bytes.len())
-            }).collect();
+            })
+            .collect();
         unsafe {
             raw::hostcall_req_set_header(
                 self.into(),
@@ -298,7 +299,8 @@ impl ResponseHandle {
             .map(|v| {
                 let v_bytes = v.as_bytes();
                 GuestSlice::new(v_bytes.as_ptr(), v_bytes.len())
-            }).collect();
+            })
+            .collect();
         unsafe {
             raw::hostcall_resp_set_header(
                 self.into(),

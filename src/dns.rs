@@ -1,9 +1,9 @@
-use failure::Fail;
-use guest_allocator::free;
-use hostcalls::{
+use crate::guest_allocator::free;
+use crate::hostcalls::{
     raw::{hostcall_dns_query_ip, hostcall_dns_query_raw},
     types::GuestSlice,
 };
+use failure::Fail;
 use std::{
     fmt::{self, Display, Formatter},
     net::{IpAddr, Ipv4Addr, Ipv6Addr},

@@ -1,4 +1,4 @@
-use hostcalls::types::{GuestSlice, HostcallStatus};
+use crate::hostcalls::types::{GuestSlice, HostcallStatus};
 use std::os::raw::c_void;
 
 extern "C" {

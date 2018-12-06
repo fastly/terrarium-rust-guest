@@ -5,6 +5,7 @@ authors = ["Fastly Labs <labs@fastly.com>"]
 repository = "https://github.com/fastly/terrarium-rust-guest"
 documentation = "https://wasm.fastlylabs.com/docs/rust/http_guest/index.html"
 license = "MIT OR Apache-2.0"
+edition = "2018"
 
 [dependencies]
 coarsetime = "0.1"

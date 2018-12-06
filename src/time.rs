@@ -1,5 +1,5 @@
+use crate::hostcalls::raw::hostcall_time_now;
 use coarsetime::Duration;
-use hostcalls::raw::hostcall_time_now;
 
 pub struct Time {}
 

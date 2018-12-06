@@ -16,13 +16,13 @@ pub mod time;
 #[macro_use]
 mod scaffolding;
 
-pub use client::{select, PendingRequest, PollResult, RequestExt, SendError};
-pub use dns::DNS;
+pub use crate::client::{select, PendingRequest, PollResult, RequestExt, SendError};
+pub use crate::dns::DNS;
+pub use crate::kvstore::KVStore;
+pub use crate::time::Time;
 pub use http::{header, Error, HeaderMap, Method, Request, Response, StatusCode, Uri};
-pub use kvstore::KVStore;
-pub use time::Time;
 
 // export these for the scaffolding macro
-pub use guest_allocator::init_mm_default;
-pub use panic::panic_set_once;
-pub use scaffolding::{raw_entrypoint, raw_entrypoint_kvs};
+pub use crate::guest_allocator::init_mm_default;
+pub use crate::panic::panic_set_once;
+pub use crate::scaffolding::{raw_entrypoint, raw_entrypoint_kvs};
