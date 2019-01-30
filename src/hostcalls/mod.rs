@@ -100,6 +100,7 @@ impl RequestHandle {
         if values_len == 0 {
             return vec![];
         }
+        assert!(!values_ptr.is_null());
         let values_slices = unsafe { slice::from_raw_parts_mut(values_ptr, values_len) };
         let mut values = vec![];
         for value_slice in values_slices {
@@ -122,6 +123,7 @@ impl RequestHandle {
         if headers_len == 0 {
             return vec![];
         }
+        assert!(!headers_ptr.is_null());
         let header_slices = unsafe { slice::from_raw_parts_mut(headers_ptr, headers_len) };
         let mut headers = vec![];
         for header_slice in header_slices {
@@ -141,6 +143,10 @@ impl RequestHandle {
         let mut method_ptr: *mut u8 = ptr::null_mut();
         let mut method_len: usize = 0;
         unsafe { raw::hostcall_req_get_method(&mut method_ptr, &mut method_len, self.into()) };
+        if method_len == 0 {
+            return String::new();
+        }
+        assert!(!method_ptr.is_null());
         let method = unsafe { slice::from_raw_parts_mut(method_ptr, method_len) };
         let method = String::from_utf8_lossy(method).to_string();
         free(method_ptr as _);
@@ -155,6 +161,10 @@ impl RequestHandle {
         let mut body_ptr: *mut u8 = ptr::null_mut();
         let mut body_len: usize = 0;
         unsafe { raw::hostcall_req_get_body(&mut body_ptr, &mut body_len, self.into()) };
+        if body_len == 0 {
+            return vec![];
+        }
+        assert!(!body_ptr.is_null());
         let body = unsafe { slice::from_raw_parts_mut(body_ptr, body_len) }.to_vec();
         free(body_ptr as _);
         body
@@ -168,6 +178,10 @@ impl RequestHandle {
         let mut path_ptr: *mut u8 = ptr::null_mut();
         let mut path_len: usize = 0;
         unsafe { raw::hostcall_req_get_path(&mut path_ptr, &mut path_len, self.into()) };
+        if path_len == 0 {
+            return String::new();
+        }
+        assert!(!path_ptr.is_null());
         let path = unsafe { slice::from_raw_parts_mut(path_ptr, path_len) };
         let path = String::from_utf8_lossy(path).to_string();
         free(path_ptr as _);
@@ -216,6 +230,7 @@ impl ResponseHandle {
         if headers_len == 0 {
             return vec![];
         }
+        assert!(!headers_ptr.is_null());
         let header_slices = unsafe { slice::from_raw_parts_mut(headers_ptr, headers_len) };
         let mut headers = vec![];
         for header_slice in header_slices {
@@ -246,6 +261,7 @@ impl ResponseHandle {
         if values_len == 0 {
             return vec![];
         }
+        assert!(!values_ptr.is_null());
         let values_slices = unsafe { slice::from_raw_parts_mut(values_ptr, values_len) };
         let mut values = vec![];
         for value_slice in values_slices {
@@ -264,6 +280,10 @@ impl ResponseHandle {
         let mut body_ptr: *mut u8 = ptr::null_mut();
         let mut body_len: usize = 0;
         unsafe { raw::hostcall_resp_get_body(&mut body_ptr, &mut body_len, self.into()) };
+        if body_len == 0 {
+            return vec![];
+        }
+        assert!(!body_ptr.is_null());
         let body = unsafe { slice::from_raw_parts_mut(body_ptr, body_len) }.to_vec();
         free(body_ptr as _);
         body
@@ -455,6 +475,9 @@ pub fn kvstore_get(key: &str) -> Option<Vec<u8>> {
     match found {
         false => None,
         true => {
+            // Host should not send a null pointer if found is true, but guard on it anyway
+            // because it is UB in slice::from_raw_parts_mut. Thanks @pepyakin
+            assert!(!value_ptr.is_null());
             let value = unsafe { slice::from_raw_parts_mut(value_ptr, value_len) }.to_vec();
             free(value_ptr as _);
             Some(value)
